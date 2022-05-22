@@ -1,13 +1,12 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-import asyncio
-import datetime
+from pydantic import BaseModel, BaseSettings
 
+
+class Settings(BaseSettings):
+	eventCounter = 0
 
 app = FastAPI()
-counter_lock = asyncio.Lock()
-counter = 0
-
+settings = Settings()
 
 class EventIn(BaseModel):
     date: str
@@ -23,13 +22,11 @@ class EventOut(BaseModel):
 
 @app.put("/events/", status_code=200, response_model=EventOut)
 async def add_event(eventIn: EventIn):
-    global counter
-    id = counter
+    id = settingsCounter
     dateAdded = str(datetime.date.today())
 
     eventCreated = EventOut(id, eventIn.event, eventIn.date, dateAdded)
-    async with counter_lock:
-        counter += 1
+	settings.EventCounter += 1
     return eventCreated
 
 
