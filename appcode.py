@@ -24,9 +24,9 @@ daysDict = {
 @app.get(path="/day/", status_code = 200)
 def get_day(name:str, number:int):
 	if name!=None and number!=None:
-		if name not in daysDict.values:
+		if name not in daysDict.values():
 			raise HTTPException(status_code=400, detail="Invalid day name")
-		elif number not in daysDict.keys:
+		elif number not in daysDict.keys():
 			raise HTTPException(status_code=400, detail="Invalid day name")
 		elif name==daysDict.get(number):
 			status_code=200
