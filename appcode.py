@@ -3,10 +3,8 @@ from pydantic import BaseModel, BaseSettings
 import datetime
 from typing import List
 
-
 class Settings(BaseSettings):
-    eventCounter = 0
-
+    eventCounter = -1
 
 class EventIn(BaseModel):
     date: str
@@ -31,16 +29,13 @@ def add_event(eventIn: EventIn):
         datetime.datetime.strptime(eventIn.date, "%Y-%m-%d")
     except:
         raise HTTPException(status_code=400, detail="Invalid date format")
-    eventId = settings.eventCounter
+    settings.eventCounter += 1
     eventAdded = str(datetime.date.today())
 
     eventCreated = EventOut(
-        id=eventId, event=eventIn.event, date=eventIn.date, dateAdded=eventAdded
+        id=settings.eventCounter, event=eventIn.event, date=eventIn.date, dateAdded=eventAdded
     )
-
     eventsList.append(eventCreated)
-    settings.eventCounter += 1
-
     return eventCreated
 
 
