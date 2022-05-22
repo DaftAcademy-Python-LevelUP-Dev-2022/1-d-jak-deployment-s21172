@@ -32,7 +32,7 @@ def get_day(name:str, number:int):
 			status_code=200
 			return daysDict[number]
 		elif name!=daysDict.get(number):
-			status_code=200
+			status_code=400
 			return daysDict[number]
 	else:
 		raise HTTPException(status_code=400, detail="Parameters name and number can't be empty")
