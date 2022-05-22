@@ -15,7 +15,7 @@ class EventOut(BaseModel):
     id: int
     event: str
     date: str
-    dateAdded: str
+    date_added: str
 
 
 app = FastAPI()
@@ -33,7 +33,7 @@ def add_event(eventIn: EventIn):
     eventAdded = str(datetime.date.today())
 
     eventCreated = EventOut(
-        id=settings.eventCounter, event=eventIn.event, date=eventIn.date, dateAdded=eventAdded
+        id=settings.eventCounter, event=eventIn.event, date=eventIn.date, date_added=eventAdded
     )
     eventsList.append(eventCreated)
     return eventCreated
