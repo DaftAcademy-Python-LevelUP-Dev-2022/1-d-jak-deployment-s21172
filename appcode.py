@@ -37,7 +37,7 @@ async def add_event(eventIn: EventIn):
     eventCreated = EventOut(
         id=eventId, event=eventIn.event, date=eventIn.date, dateAdded=dateAdded
     )
-    settings.EventCounter += 1
+    settings.eventCounter += 1
     eventsList.append(eventCreated)
 
     return eventCreated
