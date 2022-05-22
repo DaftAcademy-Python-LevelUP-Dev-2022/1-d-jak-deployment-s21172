@@ -17,16 +17,17 @@ class EventOut(BaseModel):
 	date_added: str
 
 	
-@app.post("/events/", status_code=200, response_model=EventOut)
+@app.put("/events/", status_code=200, response_model=EventOut)
 async def add_event(eventIn: EventIn):
 	global counter
     id = counter
 	dateAdded = str(datetime.date.today())
     
+	
 	eventCreated = EventOut(id, eventIn.event, eventIn.date, dateAdded)
 	async with counter_lock:
         counter += 1
-    return user
+    return eventCreated
 
 @app.get("/", status_code = 200)
 def root():
