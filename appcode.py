@@ -39,15 +39,36 @@ def add_event(eventIn: EventIn):
     return eventCreated
 
 
+@app.get("/events/{date}", status_code=200, response_model=List[EventOut],
+)
+def getEvent(date: str):
+
+    try:
+        eventDate = (datetime.datetime.strptime(date, "%Y-%m-%d"),)
+    except:
+        raise HTTPException(status_code=400, detail="Invalid date format")
+
+    resultEvents = []
+
+    for event in eventsList:
+        if event.date == date:
+            resultEvents.append(event)
+
+    if len(resultEvents) > 0:
+        return resultEvents
+    else:
+        raise HTTPException(status_code=404, detail="No events found")
+
+
 @app.get("/", status_code=200)
 def root():
     print("test")
     return {"start": "1970-01-01"}
 
 
-@app.post(path="/method", status_code=201)
-def get_post():
-    return {"method": "POST"}
+@app.middleware("http")(path="/method", status_code=201)
+def get_method(Request request):
+    return {"method": request.method}
 
 
 daysDict = {
