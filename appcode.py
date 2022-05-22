@@ -39,7 +39,7 @@ def add_event(eventIn: EventIn):
     return eventCreated
 
 
-@app.get("/events/{date}", status_code=200, response_model=List[EventOut],
+@app.get("/event/{date}", status_code=200, response_model=List[EventOut],
 )
 def getEvent(date: str):
 
