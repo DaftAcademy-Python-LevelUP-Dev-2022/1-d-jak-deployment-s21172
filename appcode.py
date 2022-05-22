@@ -1,6 +1,32 @@
 from fastapi import FastAPI, HTTPException
+import asyncio
 
 app = FastAPI()
+counter_lock = asyncio.Lock()
+counter = 0
+
+class EventIn(BaseModel):
+    date: str
+    event: str
+
+
+class EventOut(BaseModel):
+    id: int
+    event: str
+    date: str
+	date_added: str
+
+	
+@app.post("/events/", status_code=200, response_model=EventOut)
+async def add_event(eventIn: EventIn):
+	global counter
+    id = counter
+	dateAdded = str(datetime.date.today())
+    
+	eventCreated = EventOut(id, eventIn.event, eventIn.date, dateAdded)
+	async with counter_lock:
+        counter += 1
+    return user
 
 @app.get("/", status_code = 200)
 def root():
@@ -35,6 +61,10 @@ def get_day(name:str, number:int):
 			raise HTTPException(status_code=400, detail="Day doesn't match the number")
 	else:
 		raise HTTPException(status_code=400, detail="Parameters name and number can't be empty")
+		
+		
+		
+
 		
 	
 	 
