@@ -3,10 +3,12 @@ from pydantic import BaseModel, BaseSettings
 
 
 class Settings(BaseSettings):
-	eventCounter = 0
+    eventCounter = 0
+
 
 app = FastAPI()
 settings = Settings()
+
 
 class EventIn(BaseModel):
     date: str
@@ -22,11 +24,11 @@ class EventOut(BaseModel):
 
 @app.put("/events/", status_code=200, response_model=EventOut)
 async def add_event(eventIn: EventIn):
-    id = settingsCounter
+    id = settings.eventCounter
     dateAdded = str(datetime.date.today())
 
     eventCreated = EventOut(id, eventIn.event, eventIn.date, dateAdded)
-	settings.EventCounter += 1
+    settings.EventCounter += 1
     return eventCreated
 
 
