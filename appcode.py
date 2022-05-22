@@ -26,19 +26,20 @@ eventsList = []
 
 
 @app.put("/events/", status_code=200, response_model=EventOut)
-async def add_event(eventIn: EventIn):
+def add_event(eventIn: EventIn):
     try:
         datetime.datetime.strptime(eventIn.date, "%Y-%m-%d")
     except:
         raise HTTPException(status_code=400, detail="Invalid date format")
     eventId = settings.eventCounter
-    dateAdded = str(datetime.date.today())
+    eventAdded = str(datetime.date.today())
 
     eventCreated = EventOut(
-        id=eventId, event=eventIn.event, date=eventIn.date, dateAdded=dateAdded
+        id=eventId, event=eventIn.event, date=eventIn.date, dateAdded=eventAdded
     )
-    settings.eventCounter += 1
+
     eventsList.append(eventCreated)
+    settings.eventCounter += 1
 
     return eventCreated
 
