@@ -35,6 +35,7 @@ def add_event(eventIn: EventIn):
     eventCreated = EventOut(
         id=settings.eventCounter, name=eventIn.event, date=eventIn.date, date_added=eventAdded
     )
+    global eventsList
     eventsList.append(eventCreated)
     return eventCreated
 
@@ -49,6 +50,7 @@ def getEvent(date: str):
         raise HTTPException(status_code=400, detail="Invalid date format")
 
     resultEvents = []
+
 
     for event in eventsList:
         if event.date == date:
