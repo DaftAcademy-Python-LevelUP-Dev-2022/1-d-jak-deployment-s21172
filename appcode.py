@@ -66,9 +66,25 @@ def root():
     return {"start": "1970-01-01"}
 
 
-@app.middleware("http")(path="/method", status_code=201)
-def get_method(Request request):
-    return {"method": request.method}
+@app.get(path="/method", status_code=200)
+def get_method():
+    return {"method": "GET"}
+
+@app.post(path="/method", status_code=201)
+def get_method():
+    return {"method": "POST"}
+
+@app.delete(path="/method", status_code=200)
+def get_method():
+    return {"method": "DELETE"}
+
+@app.put(path="/method", status_code=200)
+def get_method():
+    return {"method": "PUT"}
+
+@app.options(path="/method", status_code=200)
+def get_method():
+    return {"method": "OPTIONS"}
 
 
 daysDict = {
