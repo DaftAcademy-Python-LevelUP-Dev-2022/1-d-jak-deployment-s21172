@@ -1,14 +1,11 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, BaseSettings
 import datetime
+from typing import List
 
 
 class Settings(BaseSettings):
     eventCounter = 0
-
-
-app = FastAPI()
-settings = Settings()
 
 
 class EventIn(BaseModel):
@@ -23,13 +20,26 @@ class EventOut(BaseModel):
     dateAdded: str
 
 
+app = FastAPI()
+settings = Settings()
+eventsList = []
+
+
 @app.put("/events/", status_code=200, response_model=EventOut)
 async def add_event(eventIn: EventIn):
-    id = settings.eventCounter
+    try:
+        datetime.datetime.strptime(eventIn.date, "%Y-%m-%d")
+    except:
+        raise HTTPException(status_code=400, detail="Invalid date format")
+    eventId = settings.eventCounter
     dateAdded = str(datetime.date.today())
 
-    eventCreated = EventOut(id, eventIn.event, eventIn.date, dateAdded)
+    eventCreated = EventOut(
+        id=eventId, event=eventIn.event, date=eventIn.date, dateAdded=dateAdded
+    )
     settings.EventCounter += 1
+    eventsList.append(eventCreated)
+
     return eventCreated
 
 
