@@ -13,7 +13,7 @@ class EventIn(BaseModel):
 
 class EventOut(BaseModel):
     id: int
-    event: str
+    name: str
     date: str
     date_added: str
 
@@ -33,7 +33,7 @@ def add_event(eventIn: EventIn):
     eventAdded = str(datetime.date.today())
 
     eventCreated = EventOut(
-        id=settings.eventCounter, event=eventIn.event, date=eventIn.date, date_added=eventAdded
+        id=settings.eventCounter, name=eventIn.event, date=eventIn.date, date_added=eventAdded
     )
     eventsList.append(eventCreated)
     return eventCreated
