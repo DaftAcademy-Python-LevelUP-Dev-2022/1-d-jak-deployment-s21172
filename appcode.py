@@ -56,10 +56,10 @@ def getEvent(date: str):
         if event.date == date:
             resultEvents.append(event)
 
-    if len(resultEvents) > 0:
-        return resultEvents
-    else:
+    if len(resultEvents) == 0:
         raise HTTPException(status_code=404, detail="No events found")
+    else:
+        return resultEvents
 
 
 @app.get("/", status_code=200)
